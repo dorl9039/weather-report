@@ -4,26 +4,25 @@ const state = {
     increaseTempControl: null,
     decreaseTempControl: null,
     tempValue: null,
-    temp: 72
 };
+let temp = 72;
 
 const loadControls = () => {
-    state.increaseTempControl = document.getElementById('increaseTempControl');
-    state.decreaseTempControl = document.getElementById('decreaseTempControl');
-    state.tempValue = document.getElementById('tempValue')
-}
+    for (const element in state) {
+        state[element] = document.getElementById(String(element))
+    }
 
 loadControls()
 
 // event handling
 const changeTempColor = () => {
-    if (state.temp >= 80) {
+    if (temp >= 80) {
         state.tempValue.setAttribute('class', 'red');
-    } else if (state.temp >= 70 && state.temp <= 79) {
+    } else if (temp >= 70 && temp <= 79) {
         state.tempValue.setAttribute('class', 'orange');
-    } else if (state.temp >= 60 && state.temp <= 69) {
+    } else if (temp >= 60 && temp <= 69) {
         state.tempValue.setAttribute('class', 'yellow');
-    } else if (state.temp >= 50 && state.temp <= 59) {
+    } else if (temp >= 50 && temp <= 59) {
         state.tempValue.setAttribute('class', 'green');
     } else {
         state.tempValue.setAttribute('class', 'teal');
@@ -31,14 +30,14 @@ const changeTempColor = () => {
 }
 
 const increaseTemp = () => {
-    state.temp++;
-    state.tempValue.textContent = state.temp;
+    temp++;
+    state.tempValue.textContent = temp;
     changeTempColor();
 }
 
 const decreaseTemp = () => {
-    state.temp--;
-    state.tempValue.textContent = state.temp;
+    temp--;
+    state.tempValue.textContent = temp;
     changeTempColor();
 }
 
