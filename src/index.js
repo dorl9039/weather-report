@@ -11,22 +11,24 @@ const loadControls = () => {
     for (const element in state) {
         state[element] = document.getElementById(String(element))
     }
-
+}
 loadControls()
 
 // event handling
 const changeTempColor = () => {
+    let cls;
     if (temp >= 80) {
-        state.tempValue.setAttribute('class', 'red');
+        cls = 'red';
     } else if (temp >= 70 && temp <= 79) {
-        state.tempValue.setAttribute('class', 'orange');
+        cls = 'orange';
     } else if (temp >= 60 && temp <= 69) {
-        state.tempValue.setAttribute('class', 'yellow');
+        cls = 'yellow';
     } else if (temp >= 50 && temp <= 59) {
-        state.tempValue.setAttribute('class', 'green');
+        cls = 'green';
     } else {
-        state.tempValue.setAttribute('class', 'teal');
+        cls = 'teal';
     }
+    state.tempValue.setAttribute('class', cls)
 }
 
 const increaseTemp = () => {
