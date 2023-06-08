@@ -4,7 +4,9 @@ const state = {
     increaseTempControl: null,
     decreaseTempControl: null,
     tempValue: null,
-    landscape: null
+    landscape: null,
+    headerCityName: null,
+    cityNameInput: null,
 };
 let temp = 72;
 
@@ -60,9 +62,14 @@ const decreaseTemp = () => {
     changeLandscape();
 }
 
+const updateCity = () => {
+    state.headerCityName.textContent = state.cityNameInput.value;
+}
+
 const registerEventHandler = () => {
     state.increaseTempControl.addEventListener('click', increaseTemp);
     state.decreaseTempControl.addEventListener('click', decreaseTemp);
+    state.cityNameInput.addEventListener('input', updateCity);
 }
 
 document.addEventListener('DOMContentLoaded', registerEventHandler);
