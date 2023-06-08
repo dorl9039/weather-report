@@ -19,7 +19,7 @@ const loadControls = () => {
 loadControls()
 
 // event handling
-const changeTempColor = () => {
+const changeTempColor = (temp) => {
     let cls;
     if (temp >= 80) {
         cls = 'red';
@@ -35,7 +35,7 @@ const changeTempColor = () => {
     state.tempValue.setAttribute('class', cls)
 }
 
-const changeLandscape = () => {
+const changeLandscape = (temp) => {
     let landscapeImage;
     if (temp >= 80) {
         landscapeImage = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
@@ -52,15 +52,15 @@ const changeLandscape = () => {
 const increaseTemp = () => {
     temp++;
     state.tempValue.textContent = temp;
-    changeTempColor();
-    changeLandscape();
+    changeTempColor(temp);
+    changeLandscape(temp);
 }
 
 const decreaseTemp = () => {
     temp--;
     state.tempValue.textContent = temp;
-    changeTempColor();
-    changeLandscape();
+    changeTempColor(temp);
+    changeLandscape(temp);
 }
 
 const updateCity = () => {
@@ -80,7 +80,9 @@ const getWeather = () => {
             })
             .then(response => {
                 temp = convertKelvinToFahrenheit(response.data.main.temp);
-                state.tempValue.textContent = Math.round(temp);
+                state.tempValue.textContent = temp;
+                changeTempColor(temp);
+                changeLandscape(temp);
             })
             .catch(error => {
                 console.log(error);
@@ -91,7 +93,7 @@ const getWeather = () => {
     })
 };
 
-const convertKelvinToFahrenheit = k => (k-273.15) * (9/5) + 32
+const convertKelvinToFahrenheit = k => Math.round((k-273.15) * (9/5) + 32)
 
 const registerEventHandler = () => {
     state.increaseTempControl.addEventListener('click', increaseTemp);
