@@ -1,4 +1,6 @@
 "use strict";
+const axios = require('axios');
+
 
 const state = {
     increaseTempControl: null,
@@ -7,6 +9,7 @@ const state = {
     landscape: null,
     headerCityName: null,
     cityNameInput: null,
+    currentTempButton: null,
 };
 let temp = 72;
 
@@ -65,6 +68,16 @@ const decreaseTemp = () => {
 const updateCity = () => {
     state.headerCityName.textContent = state.cityNameInput.value;
 }
+
+// const getLonLat = () => {
+//     let lat, lon;
+//     axios.get('http://127.0.0.1:5000/location', {
+//         params: {q: state.cityNameInput.value}
+//     })
+//     .then((response) => {
+//         console.log(response)
+//     })
+// }
 
 const registerEventHandler = () => {
     state.increaseTempControl.addEventListener('click', increaseTemp);
