@@ -67,44 +67,37 @@ const updateCity = () => {
     state.headerCityName.textContent = state.cityNameInput.value;
 }
 
-const getLonLat = (city) => {
-    let lat, lon;
-    return axios.get('http://127.0.0.1:5000/location', {
-        params: {q: city}
+const getWeather = () => {
+    axios.get('http://127.0.0.1:5000/location', {
+        params: {q: state.cityNameInput.value}
     })
     .then((response) => {
-        lat = response.data[0].lat;
-        lon = response.data[0].lon;
-        return {lat, lon}
+        let lat = response.data[0].lat;
+        let lon = response.data[0].lon;
+
+        axios.get('http://127.0.0.1:5000/weather', {
+            params: {lat: lat, lon: lon}
+            })
+            .then(response => {
+                temp = convertKelvinToFahrenheit(response.data.main.temp);
+                state.tempValue.textContent = Math.round(temp);
+            })
+            .catch(error => {
+                console.log(error);
+            })
     })
     .catch((error) => {
-        console.log(error.response.data)
+        console.log(error);
     })
-}
+};
 
 const convertKelvinToFahrenheit = k => (k-273.15) * (9/5) + 32
-
-
-const getLocationWeather = () => {
-    return getLonLat(state.cityNameInput.value)
-    .then((response) => {
-        return axios.get('http://127.0.0.1:5000/weather', {
-            params: {lat: response.lat, 
-                lon: response.lon}
-        })
-        .then((response) => {
-            // console.log(response.data.main.temp)
-            const tempF = convertKelvinToFahrenheit(response.data.main.temp);
-            return ;
-        })
-    })
-}
 
 const registerEventHandler = () => {
     state.increaseTempControl.addEventListener('click', increaseTemp);
     state.decreaseTempControl.addEventListener('click', decreaseTemp);
     state.cityNameInput.addEventListener('input', updateCity);
+    state.currentTempButton.addEventListener('click', getWeather);
 }
 
 document.addEventListener('DOMContentLoaded', registerEventHandler);
-console.log(getLocationWeather());
