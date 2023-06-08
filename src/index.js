@@ -4,13 +4,15 @@ const state = {
     increaseTempControl: null,
     decreaseTempControl: null,
     tempValue: null,
+    landscape: null,
     temp: 72
 };
 
 const loadControls = () => {
     state.increaseTempControl = document.getElementById('increaseTempControl');
     state.decreaseTempControl = document.getElementById('decreaseTempControl');
-    state.tempValue = document.getElementById('tempValue')
+    state.tempValue = document.getElementById('tempValue');
+    state.landscape = document.getElementById('landscape')
 }
 
 loadControls()
@@ -30,16 +32,32 @@ const changeTempColor = () => {
     }
 }
 
+const changeLandscape = () => {
+    let landscapeImage;
+    if (state.temp >= 80) {
+        landscapeImage = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
+    } else if (state.temp >= 70 && state.temp <= 79) {
+        landscapeImage = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
+    } else if (state.temp >= 60 && state.temp <=69) {
+        landscapeImage = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
+    } else {
+        landscapeImage = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲'
+    }
+    state.landscape.textContent = landscapeImage;
+}
+
 const increaseTemp = () => {
     state.temp++;
     state.tempValue.textContent = state.temp;
     changeTempColor();
+    changeLandscape();
 }
 
 const decreaseTemp = () => {
     state.temp--;
     state.tempValue.textContent = state.temp;
     changeTempColor();
+    changeLandscape();
 }
 
 const registerEventHandler = () => {
