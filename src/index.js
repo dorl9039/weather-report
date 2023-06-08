@@ -4,41 +4,41 @@ const state = {
     increaseTempControl: null,
     decreaseTempControl: null,
     tempValue: null,
-    landscape: null,
-    temp: 72
+    landscape: null
 };
+let temp = 72;
 
 const loadControls = () => {
-    state.increaseTempControl = document.getElementById('increaseTempControl');
-    state.decreaseTempControl = document.getElementById('decreaseTempControl');
-    state.tempValue = document.getElementById('tempValue');
-    state.landscape = document.getElementById('landscape')
+    for (const element in state) {
+        state[element] = document.getElementById(String(element))
+    }
 }
-
 loadControls()
 
 // event handling
 const changeTempColor = () => {
-    if (state.temp >= 80) {
-        state.tempValue.setAttribute('class', 'red');
-    } else if (state.temp >= 70 && state.temp <= 79) {
-        state.tempValue.setAttribute('class', 'orange');
-    } else if (state.temp >= 60 && state.temp <= 69) {
-        state.tempValue.setAttribute('class', 'yellow');
-    } else if (state.temp >= 50 && state.temp <= 59) {
-        state.tempValue.setAttribute('class', 'green');
+    let cls;
+    if (temp >= 80) {
+        cls = 'red';
+    } else if (temp >= 70 && temp <= 79) {
+        cls = 'orange';
+    } else if (temp >= 60 && temp <= 69) {
+        cls = 'yellow';
+    } else if (temp >= 50 && temp <= 59) {
+        cls = 'green';
     } else {
-        state.tempValue.setAttribute('class', 'teal');
+        cls = 'teal';
     }
+    state.tempValue.setAttribute('class', cls)
 }
 
 const changeLandscape = () => {
     let landscapeImage;
-    if (state.temp >= 80) {
+    if (temp >= 80) {
         landscapeImage = '🌵__🐍_🦂_🌵🌵__🐍_🏜_🦂';
-    } else if (state.temp >= 70 && state.temp <= 79) {
+    } else if (temp >= 70 && temp <= 79) {
         landscapeImage = '🌸🌿🌼__🌷🌻🌿_☘️🌱_🌻🌷';
-    } else if (state.temp >= 60 && state.temp <=69) {
+    } else if (temp >= 60 && temp <=69) {
         landscapeImage = '🌾🌾_🍃_🪨__🛤_🌾🌾🌾_🍃';
     } else {
         landscapeImage = '🌲🌲⛄️🌲⛄️🍂🌲🍁🌲🌲⛄️🍂🌲'
@@ -47,15 +47,15 @@ const changeLandscape = () => {
 }
 
 const increaseTemp = () => {
-    state.temp++;
-    state.tempValue.textContent = state.temp;
+    temp++;
+    state.tempValue.textContent = temp;
     changeTempColor();
     changeLandscape();
 }
 
 const decreaseTemp = () => {
-    state.temp--;
-    state.tempValue.textContent = state.temp;
+    temp--;
+    state.tempValue.textContent = temp;
     changeTempColor();
     changeLandscape();
 }
