@@ -1,6 +1,4 @@
 "use strict";
-const axios = require('axios');
-
 
 const state = {
     increaseTempControl: null,
@@ -69,15 +67,38 @@ const updateCity = () => {
     state.headerCityName.textContent = state.cityNameInput.value;
 }
 
-// const getLonLat = () => {
-//     let lat, lon;
-//     axios.get('http://127.0.0.1:5000/location', {
-//         params: {q: state.cityNameInput.value}
-//     })
-//     .then((response) => {
-//         console.log(response)
-//     })
-// }
+const getLonLat = (city) => {
+    let lat, lon;
+    return axios.get('http://127.0.0.1:5000/location', {
+        params: {q: city}
+    })
+    .then((response) => {
+        lat = response.data[0].lat;
+        lon = response.data[0].lon;
+        return {lat, lon}
+    })
+    .catch((error) => {
+        console.log(error.response.data)
+    })
+}
+
+const convertKelvinToFahrenheit = k => (k-273.15) * (9/5) + 32
+
+
+const getLocationWeather = () => {
+    return getLonLat(state.cityNameInput.value)
+    .then((response) => {
+        return axios.get('http://127.0.0.1:5000/weather', {
+            params: {lat: response.lat, 
+                lon: response.lon}
+        })
+        .then((response) => {
+            // console.log(response.data.main.temp)
+            const tempF = convertKelvinToFahrenheit(response.data.main.temp);
+            return ;
+        })
+    })
+}
 
 const registerEventHandler = () => {
     state.increaseTempControl.addEventListener('click', increaseTemp);
@@ -86,3 +107,4 @@ const registerEventHandler = () => {
 }
 
 document.addEventListener('DOMContentLoaded', registerEventHandler);
+console.log(getLocationWeather());
