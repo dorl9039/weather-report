@@ -82,8 +82,8 @@ const getLatitudeLongitude = (place) => {
 
 const convertKToF = k => Math.round((k-273.15) * (9/5) + 32)
 
-const getLocationWeather = () => {
-    return getLatitudeLongitude(state.cityNameInput.value)
+const getLocationWeather = (city) => {
+    return getLatitudeLongitude(city)
     .then( response => {
         return axios.get('http://127.0.0.1:5000/weather', {
             params: {lat: response.lat, 
@@ -101,7 +101,7 @@ const getLocationWeather = () => {
 }
 
 const updateTempByCity = () => {
-    getLocationWeather()
+    getLocationWeather(state.cityNameInput.value)
     .then(temp => {
         state.tempValue.textContent = temp;
         changeTempColor(temp);
