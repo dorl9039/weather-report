@@ -8,8 +8,8 @@ const state = {
     headerCityName: null,
     cityNameInput: null,
     currentTempButton: null,
+    temp: null
 };
-let temp = 72;
 
 const loadControls = () => {
     for (const element in state) {
@@ -18,7 +18,6 @@ const loadControls = () => {
 }
 loadControls()
 
-// event handling
 const changeTempColor = (temp) => {
     let cls;
     if (temp >= 80) {
@@ -50,56 +49,71 @@ const changeLandscape = (temp) => {
 }
 
 const increaseTemp = () => {
-    temp++;
-    state.tempValue.textContent = temp;
-    changeTempColor(temp);
-    changeLandscape(temp);
+    state.temp++;
+    state.tempValue.textContent = state.temp;
+    changeTempColor(state.temp);
+    changeLandscape(state.temp);
 }
 
 const decreaseTemp = () => {
-    temp--;
-    state.tempValue.textContent = temp;
-    changeTempColor(temp);
-    changeLandscape(temp);
+    state.temp--;
+    state.tempValue.textContent = state.temp;
+    changeTempColor(state.temp);
+    changeLandscape(state.temp);
 }
 
 const updateCity = () => {
     state.headerCityName.textContent = state.cityNameInput.value;
 }
 
-const getWeather = () => {
-    axios.get('http://127.0.0.1:5000/location', {
-        params: {q: state.cityNameInput.value}
+const getLatitudeLongitude = (place) => {
+    return axios.get('http://127.0.0.1:5000/location', {
+        params: {q: place}
     })
-    .then((response) => {
-        let lat = response.data[0].lat;
-        let lon = response.data[0].lon;
-
-        axios.get('http://127.0.0.1:5000/weather', {
-            params: {lat: lat, lon: lon}
-            })
-            .then(response => {
-                temp = convertKelvinToFahrenheit(response.data.main.temp);
-                state.tempValue.textContent = temp;
-                changeTempColor(temp);
-                changeLandscape(temp);
-            })
-            .catch(error => {
-                console.log(error);
-            })
+    .then( response => {
+        const lat = response.data[0].lat;
+        const lon = response.data[0].lon;
+        return {lat, lon}
     })
-    .catch((error) => {
+    .catch( error => {
         console.log(error);
     })
-};
+}
 
-const convertKelvinToFahrenheit = k => Math.round((k-273.15) * (9/5) + 32)
+const convertKToF = k => Math.round((k-273.15) * (9/5) + 32)
+
+const getLocationWeather = () => {
+    return getLatitudeLongitude(state.cityNameInput.value)
+    .then( response => {
+        return axios.get('http://127.0.0.1:5000/weather', {
+            params: {lat: response.lat, 
+                lon: response.lon
+            }
+        })
+        .then( response => {
+            state.temp = convertKToF(response.data.main.temp);
+            return state.temp;
+        })
+        .catch( error => {
+            console.log(error);
+        })
+    })
+}
+
+const updateTempByCity = () => {
+    getLocationWeather()
+    .then(temp => {
+        state.tempValue.textContent = temp;
+        changeTempColor(temp);
+        changeLandscape(temp);
+    });
+}
 
 const registerEventHandler = () => {
     state.increaseTempControl.addEventListener('click', increaseTemp);
     state.decreaseTempControl.addEventListener('click', decreaseTemp);
     state.cityNameInput.addEventListener('input', updateCity);
-    state.currentTempButton.addEventListener('click', getWeather);
+    state.currentTempButton.addEventListener('click', updateTempByCity);
 }
 
 document.addEventListener('DOMContentLoaded', registerEventHandler);
