@@ -8,12 +8,16 @@ const state = {
     headerCityName: null,
     cityNameInput: null,
     currentTempButton: null,
-    temp: null
+    temp: null,
+    skySelect: null,
+    sky: null,
 };
 
 const loadControls = () => {
     for (const element in state) {
-        state[element] = document.getElementById(String(element))
+        if (element !== 'temp') {
+            state[element] = document.getElementById(String(element));
+        }
     }
 }
 loadControls()
@@ -109,11 +113,26 @@ const updateTempByCity = () => {
     });
 }
 
+const changeSky = () => {
+    if (state.skySelect.value === 'sunny') {
+        state.sky.textContent = "☁️ ☁️ ☁️ ☀️ ☁️ ☁️";
+    } else if (state.skySelect.value === 'cloudy') {
+        state.sky.textContent = "☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️";
+    } else if (state.skySelect.value === 'rainy') {
+        state.sky.textContent = "🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧";
+    } else {
+        state.sky.textContent = "🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨";
+    }
+}
+
 const registerEventHandler = () => {
     state.increaseTempControl.addEventListener('click', increaseTemp);
     state.decreaseTempControl.addEventListener('click', decreaseTemp);
     state.cityNameInput.addEventListener('input', updateCity);
     state.currentTempButton.addEventListener('click', updateTempByCity);
+    state.skySelect.addEventListener('change', changeSky);
 }
 
+changeSky();
+changeLandscape();
 document.addEventListener('DOMContentLoaded', registerEventHandler);
