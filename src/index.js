@@ -8,7 +8,7 @@ const state = {
     headerCityName: null,
     cityNameInput: null,
     currentTempButton: null,
-    temp: null,
+    temp: tempValue.textContent,
     skySelect: null,
     sky: null,
 };
@@ -134,5 +134,5 @@ const registerEventHandler = () => {
 }
 
 changeSky();
-changeLandscape();
+changeLandscape(state.temp);
 document.addEventListener('DOMContentLoaded', registerEventHandler);
