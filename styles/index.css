@@ -85,7 +85,7 @@ justify-content: space-around;
 
 #tempValue {
 font-size: 3rem;
-margin-left: 1.5rem;
+/* margin-left: 1.5rem; */
 /* padding-right: 1rem; */
 /* margin-right: 1.5rem; */
 }
@@ -94,6 +94,7 @@ margin-left: 1.5rem;
 display: flex;
 flex-direction: column;
 align-items: center;
+justify-content: space-evenly;
 }
 
 .garden__section > h2 {
