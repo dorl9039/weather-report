@@ -12,6 +12,7 @@ const state = {
     skySelect: null,
     sky: null,
     cityNameReset: null,
+    gardenContent: null,
 };
 
 const loadControls = () => {
@@ -24,19 +25,19 @@ const loadControls = () => {
 loadControls()
 
 const changeTempColor = (temp) => {
-    let cls;
+    let color;
     if (temp >= 80) {
-        cls = 'red';
+        color = 'red';
     } else if (temp >= 70 && temp <= 79) {
-        cls = 'orange';
+        color = 'orange';
     } else if (temp >= 60 && temp <= 69) {
-        cls = 'yellow';
+        color = 'yellow';
     } else if (temp >= 50 && temp <= 59) {
-        cls = 'green';
+        color = 'green';
     } else {
-        cls = 'teal';
+        color = 'teal';
     }
-    state.tempValue.setAttribute('class', cls)
+    state.tempValue.setAttribute('class', color)
 }
 
 const changeLandscape = (temp) => {
@@ -122,16 +123,23 @@ const updateTempByCity = () => {
 
 const changeSky = () => {
     let skyGraphic;
+    let gardenContentColor = 'garden__content ';
+
     if (state.skySelect.value === 'sunny') {
-        skyGraphic = "☁️ ☁️ ☁️ ☀️ ☁️ ☁️";
+        skyGraphic = "☁️  ☁️  ☁️  ☀️  ☁️  ☁️";
+        gardenContentColor += 'sunny'
     } else if (state.skySelect.value === 'cloudy') {
         skyGraphic = "☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️";
+        gardenContentColor += 'cloudy';
     } else if (state.skySelect.value === 'rainy') {
         skyGraphic = "🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧";
+        gardenContentColor += 'rainy';
     } else {
         skyGraphic = "🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨";
+        gardenContentColor += 'snowy';
     }
     state.sky.textContent = skyGraphic
+    state.gardenContent.setAttribute('class', gardenContentColor)
 }
 
 
