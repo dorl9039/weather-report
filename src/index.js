@@ -11,6 +11,7 @@ const state = {
     temp: tempValue.textContent,
     skySelect: null,
     sky: null,
+    cityNameReset: null,
 };
 
 const loadControls = () => {
@@ -70,6 +71,12 @@ const updateCity = () => {
     state.headerCityName.textContent = state.cityNameInput.value;
 }
 
+const resetCity = () => {
+    state.cityNameInput.value = "Seattle";
+    updateCity()
+    updateTempByCity();
+}
+
 const getLatitudeLongitude = (place) => {
     return axios.get('http://127.0.0.1:5000/location', {
         params: {q: place}
@@ -114,16 +121,19 @@ const updateTempByCity = () => {
 }
 
 const changeSky = () => {
+    let skyGraphic;
     if (state.skySelect.value === 'sunny') {
-        state.sky.textContent = "☁️ ☁️ ☁️ ☀️ ☁️ ☁️";
+        skyGraphic = "☁️ ☁️ ☁️ ☀️ ☁️ ☁️";
     } else if (state.skySelect.value === 'cloudy') {
-        state.sky.textContent = "☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️";
+        skyGraphic = "☁️☁️ ☁️ ☁️☁️ ☁️ 🌤 ☁️ ☁️☁️";
     } else if (state.skySelect.value === 'rainy') {
-        state.sky.textContent = "🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧";
+        skyGraphic = "🌧🌈⛈🌧🌧💧⛈🌧🌦🌧💧🌧🌧";
     } else {
-        state.sky.textContent = "🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨";
+        skyGraphic = "🌨❄️🌨🌨❄️❄️🌨❄️🌨❄️❄️🌨🌨";
     }
+    state.sky.textContent = skyGraphic
 }
+
 
 const registerEventHandler = () => {
     state.increaseTempControl.addEventListener('click', increaseTemp);
@@ -131,6 +141,7 @@ const registerEventHandler = () => {
     state.cityNameInput.addEventListener('input', updateCity);
     state.currentTempButton.addEventListener('click', updateTempByCity);
     state.skySelect.addEventListener('change', changeSky);
+    state.cityNameReset.addEventListener('click', resetCity)
 }
 
 changeSky();
