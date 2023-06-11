@@ -58,7 +58,13 @@ grid-row: 2;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    border-radius: 10px
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+.temperature__section button:active {
+    transform: translateY(2px);
 }
 
 .sky__section {
@@ -68,6 +74,8 @@ grid-row: 3;
 .city-name__section {
 grid-row: 4;
 }
+
+
 
 .garden__section {
 grid-row: 2 / span 3;
@@ -125,6 +133,10 @@ color: white;
 border-radius: 8px;
 padding: 1rem;
 font-family: "Rubik", sans-serif;
+}
+
+.city-name__reset-btn:active {
+    transform: translateY(2px);
 }
 
 .red {
