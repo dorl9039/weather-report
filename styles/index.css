@@ -62,8 +62,15 @@ grid-row: 2;
     cursor: pointer;
 }
 
-
 .temperature__section button:active {
+    transform: translateY(2px);
+}
+
+#increaseTempControl:active {
+    transform: translateY(2px);
+}
+
+#decreaseTempControl:active {
     transform: translateY(2px);
 }
 
@@ -74,8 +81,6 @@ grid-row: 3;
 .city-name__section {
 grid-row: 4;
 }
-
-
 
 .garden__section {
 grid-row: 2 / span 3;
