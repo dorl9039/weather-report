@@ -47,7 +47,6 @@ const changeTempColor = (temp) => {
     document.body.style.background = backgroundColor;
     cityNameReset.style.backgroundColor = backgroundColor;
     currentTempButton.style.backgroundColor = backgroundColor;
-
 }
 
 const changeLandscape = (temp) => {
@@ -83,9 +82,10 @@ const updateCity = () => {
 }
 
 const resetCity = () => {
-    state.cityNameInput.value = "Seattle";
+    state.cityNameInput.value = state.cityNameInput.placeholder;
     updateCity()
-    updateTempByCity();
+    updateTempByCity()
+    state.cityNameInput.value = "";
 }
 
 const getLatitudeLongitude = (place) => {
