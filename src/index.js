@@ -26,18 +26,28 @@ loadControls()
 
 const changeTempColor = (temp) => {
     let color;
+    let backgroundColor;
     if (temp >= 80) {
         color = 'red';
+        backgroundColor = "#a75051";
     } else if (temp >= 70 && temp <= 79) {
         color = 'orange';
+        backgroundColor = "#d3834d";
     } else if (temp >= 60 && temp <= 69) {
         color = 'yellow';
+        backgroundColor = "#c8a669";
     } else if (temp >= 50 && temp <= 59) {
         color = 'green';
-    } else {
+        backgroundColor = "#528478";
+    } else if (temp < 50) {
         color = 'teal';
+        backgroundColor = "#4288c2";
     }
-    state.tempValue.setAttribute('class', color)
+    state.tempValue.setAttribute('class', color);
+    document.body.style.background = backgroundColor;
+    cityNameReset.style.backgroundColor = backgroundColor;
+    currentTempButton.style.backgroundColor = backgroundColor;
+
 }
 
 const changeLandscape = (temp) => {
@@ -153,5 +163,6 @@ const registerEventHandler = () => {
 }
 
 changeSky();
+changeTempColor(state.temp);
 changeLandscape(state.temp);
 document.addEventListener('DOMContentLoaded', registerEventHandler);
