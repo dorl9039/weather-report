@@ -1,4 +1,6 @@
 "use strict";
+import 'regenerator-runtime/runtime';
+import axios from 'axios';
 
 const state = {
     increaseTempControl: null,
@@ -89,7 +91,7 @@ const resetCity = () => {
 }
 
 const getLatitudeLongitude = (place) => {
-    return axios.get('http://127.0.0.1:5000/location', {
+    return axios.get('https://weather-report-proxy-server-vaa7.onrender.com/location', {
         params: {q: place}
     })
     .then( response => {
@@ -107,7 +109,7 @@ const convertKToF = k => Math.round((k-273.15) * (9/5) + 32)
 const getLocationWeather = (city) => {
     return getLatitudeLongitude(city)
     .then( response => {
-        return axios.get('http://127.0.0.1:5000/weather', {
+        return axios.get('https://weather-report-proxy-server-vaa7.onrender.com/weather', {
             params: {lat: response.lat, 
                 lon: response.lon
             }
